@@ -23,7 +23,7 @@
             </tr>
             <br>
             <tr>
-                <td><label for="">Member Role : </label></td>
+                <td><label for="">Member Role </label></td>
                 <td> : </td>
                 <td><select name="role_id" id="role">
                         <option selected disabled>Select Member Role</option>
@@ -32,6 +32,12 @@
                         @endforeach
                     </select>
                 </td>
+            </tr>
+            <br>
+            <tr>
+                <td><label for="">User Email </label></td>
+                <td> : </td>
+                <td><input type="email" name="email"></td>
             </tr>
             <br>
         </table>

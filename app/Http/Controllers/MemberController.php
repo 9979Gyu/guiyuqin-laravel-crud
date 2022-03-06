@@ -46,6 +46,7 @@ class MemberController extends Controller
         $request->validate([
             'name'      => "required",
             'age'       => "required",
+            'email'     => "required",
             'role_id'   => "required|in:1, 2, 3"
         ]);
 
@@ -54,11 +55,11 @@ class MemberController extends Controller
         $member = new Member([
             'name'          => $request->get('name'),
             'age'           => $request->get('age'),
+            'email'         => $request->get('email'),
             'role_id'       => $request->role_id,
         ]);
 
         $member->save();
-
         return redirect('/member')->with('success', 'member is added');
     }
 
@@ -100,8 +101,11 @@ class MemberController extends Controller
         $roleName = DB::table('member_role')->get();
 
         $member = $this->getMemberById($id);
-  
-        return View('member.edit', compact('member', 'roleName'));
+
+        if($member->email === Auth::user()->email)
+            return View('member.edit', compact('member', 'roleName'));
+        else
+            return redirect('/member')->with('error', 'email not match');
     }
 
     /**
@@ -117,6 +121,7 @@ class MemberController extends Controller
         $request->validate([
             'name' => "required",
             'age'  => 'required',
+            'email'  => 'required',
             'role_id'   => "required|in:1, 2, 3"
         ]);
 
@@ -125,6 +130,7 @@ class MemberController extends Controller
             ->update([
                 'name'      => $request->name,
                 'age'       => $request->get('age'),
+                'email'     => $request->get('email'),
                 'role_id'   => $request->role_id
             ]);
 
@@ -138,26 +144,29 @@ class MemberController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
-        //
-
-        DB::table('members')
-        ->where('id', $id)
-        ->delete();
-
-        // return redirect('/member')->with('success', 'member is deleted');
-
-        return response()->json([
-            'success' => 'Record deleted successfully!'
-        ]);
+    {   
+        $member = DB::table('members')
+                    ->where([
+                        ['id', $id],
+                        ['email', Auth::user()->email]
+                    ])
+                    ->first();
         
+        if($member->email === Auth::user()->email){
+            DB::table('members')
+                    ->where([
+                        ['id', $id],
+                        ['email', Auth::user()->email]
+                    ])
+                    ->delete();
+        }   
     }
 
     public function getMemberById($id)
     {
         return DB::table('members as m')
             ->leftJoin('member_role as mr', 'm.role_id', '=', 'mr.id')
-            ->select('m.id', 'm.name as name', 'm.age', 'mr.name as role')
+            ->select('m.id', 'm.name as name', 'm.age', 'm.email', 'mr.name as role')
             ->where('m.id', $id)
             ->first();
     }

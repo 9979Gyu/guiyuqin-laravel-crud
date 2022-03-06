@@ -6,6 +6,11 @@
         {{ $msg }}
     </div>
 @endif
+@if ($msg = Session::get('error'))
+    <div style="color:white; background-color:red;">
+        {{ $msg }}
+    </div>
+@endif
 <table id="memberTable" class="center">
     <thead>
         <th>#</th>
@@ -34,6 +39,7 @@
                 var result = confirm("Delete this member?");
 
                 if(result == true){
+                    
                     $.ajax(
                     {
                         url: "member/"+id,
@@ -48,7 +54,6 @@
                             location.reload();
                         }
                     });
-                    
                 }
             });       
 

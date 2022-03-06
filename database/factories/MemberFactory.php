@@ -10,6 +10,7 @@ $factory->define(Member::class, function (Faker $faker) {
         //
         'name'      => $faker->name,
         'age'       => rand(10, 60),
+        'email'     => $faker->safeEmail,
         'role_id'   => rand(1, 3)
     ];
 });

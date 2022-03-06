@@ -17,23 +17,21 @@
                 <td><input type="text" name="id" value="{{ $member->id }}" disabled></td>
             </tr> --}}
             <td><input hidden type="text" name="id" value="{{ $member->id }}" disabled></td>
-            <br>
+
             <tr>
                 <td><label for="">Member Name </label></td>
                 <td> : </td>
                 <td><input type="text" name="name" value="{{ $member->name }}"></td>
             </tr>
-            <br>
 
             <tr>
                 <td><label for="">Member Age </label></td>
                 <td> : </td>
                 <td><input type="number" name="age" value="{{ $member->age }}"></td>
             </tr>
-            <br>
 
             <tr>
-                <td><label for="">Member Role : </label></td>
+                <td><label for="">Member Role </label></td>
                 <td> : </td>
                 <td>
                     <select name="role_id" id="role">
@@ -43,6 +41,11 @@
                     @endforeach
                     </select>
                 </td>
+            </tr>
+            <tr>
+                <td><label for="">User Email </label></td>
+                <td> : </td>
+                <td><input type="text" name="email" value="{{ $member->email }}"></td>
             </tr>
             
         </table>
