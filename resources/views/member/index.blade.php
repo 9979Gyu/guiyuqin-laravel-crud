@@ -23,12 +23,38 @@
 @endsection
 
 @section('script')
-    <script>
+<script>     
         $( document ).ready(function() {
             fetch_data();
+                
+            $( "#memberTable" ).on('click', '#target', function() {
+                var id = $(this).data("id");
+                var token = $("meta[name='csrf-token']").attr("content");
+                
+                var result = confirm("Delete this member?");
+
+                if(result == true){
+                    $.ajax(
+                    {
+                        url: "member/"+id,
+                        type: 'DELETE',
+                        data: {
+                            "id": id,
+                            "_token": token,
+                        },
+
+                        success: function (){
+                            alert("Member with id " + id + " is deleted");
+                            location.reload();
+                        }
+                    });
+                    
+                }
+            });       
 
             function fetch_data(){
                 console.log("test");
+                
                 $('#memberTable').DataTable({
                     ajax:{
                         url : "{{ route('member.table') }}",
@@ -58,6 +84,8 @@
                     }]
                 });
             }
+
+            
         });
     </script>
 @show

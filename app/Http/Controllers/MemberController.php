@@ -95,7 +95,7 @@ class MemberController extends Controller
             ->leftJoin('member_role as mr', 'm.role_id', '=', 'mr.id')
             ->select('m.id', 'm.name as name', 'm.age', 'mr.name as role')
             ->where('m.id', $id)
-            ->first(); */
+            ->first();  */
 
         $roleName = DB::table('member_role')->get();
 
@@ -140,11 +140,17 @@ class MemberController extends Controller
     public function destroy($id)
     {
         //
-        DB::table('members')
-            ->where('id', $id)
-            ->delete();
 
-        return redirect('/member')->with('success', 'member is deleted');
+        DB::table('members')
+        ->where('id', $id)
+        ->delete();
+
+        // return redirect('/member')->with('success', 'member is deleted');
+
+        return response()->json([
+            'success' => 'Record deleted successfully!'
+        ]);
+        
     }
 
     public function getMemberById($id)
@@ -176,7 +182,8 @@ class MemberController extends Controller
             return datatables()->of($members)
                 ->addColumn('action', function($member){
                     $result = '<a class="btn btn-primary" href="' .  route('member.edit', $member->id) . '">Edit</a>';
-                    $result = $result . '<a class="btn btn-primary" href="' .  route('member.show', $member->id) . '">Show</a>';
+                    $result = $result . ' <a class="btn btn-primary" href="' .  route('member.show', $member->id) . '">Show</a>';
+                    $result = $result . ' <meta name="csrf-token" content="{{ csrf_token() }}"><button class="btn btn-primary" id="target" data-id="'. $member->id. '">Delete</button>';
                     return $result;
                 })
                 ->rawColumns(['action'])

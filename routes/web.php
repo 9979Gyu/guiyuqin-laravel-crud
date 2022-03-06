@@ -23,6 +23,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'member'], function(){
     Route::get('/list', 'MemberController@getMemberDataTable')->name('member.table');
 });
 
+Route::delete('member/{id} ', 'MemberController@destroy')->name('member.destroy');
 
 Route::group(['middleware' => ['auth']], function(){
     Route::resource('/member', 'MemberController');

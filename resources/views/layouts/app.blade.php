@@ -52,7 +52,36 @@
                                 </li>
                             @endif
                         @else
-                            <li class="nav-item dropdown">
+                        <li class="nav-item">
+                            <a href="{{ route('member.index') }}"> Member</a>
+                            <a href="{{ route('logout') }}"
+                                onclick="event.preventDefault();
+                                            document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                            </a>                      
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">@csrf</form>
+
+                            <span style="text-decoration: none; color:grey; margin: 0px 10px;" >
+                                {{ Auth::user()->name }}
+                            </span>
+
+                            <!-- {{-- <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('member.index') }}"> Member</a>
+
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                onclick="event.preventDefault();
+                                                document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
+                                </a>
+
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            </div> --}} -->
+                        </li>
+
+                            <!-- <li class="nav-item dropdown">
 
                                 <ul> <a class="dropdown-item" href="{{ route('member.index') }}"> Member</a></ul>
                                 <ul><a class="dropdown-item" href="{{ route('logout') }}"
@@ -81,7 +110,7 @@
                                         @csrf
                                     </form>
                                 </div> --}}
-                            </li>
+                            </li> -->
                         @endguest
                     </ul>
                 </div>
